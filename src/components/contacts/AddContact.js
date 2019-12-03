@@ -1,36 +1,71 @@
 import React, { Component } from "react";
 import { Consumer } from "../../context";
-import uuid from "uuid";
 import TextInputGroup from "../layout/TextInputGroup";
+import axios from 'axios';
 
 class AddContact extends Component {
   state = {
     name: "",
     email: "",
-    phone: ""
+    phone: "",
+    errors: {}
   };
-
   onSubmit = (dispatch, e) => {
     e.preventDefault();
-    const { name, email, phone } = this.state;
+    const { name, email, phone} = this.state;
+
+    // check for errors
+    if (name === "") {
+      this.setState({
+        errors: {
+          name: "Name is required"
+        }
+      });
+      return;
+    }
+    if (email === "") {
+      this.setState({
+        errors: {
+          email: "Email is required"
+        }
+      });
+      return;
+    }
+    if (phone === "") {
+      this.setState({
+        errors: {
+          phone: "Phone is required"
+        }
+      });
+      return;
+    }
     const newContact = {
-      id: uuid(),
       name,
       email,
       phone
     };
-    dispatch({ type: "ADD_CONTACT", payload: newContact });
+    axios.post
+    ('https://jsonplaceholder.typicode.com/users',
+    newContact)
+    .then(res => dispatch({ type: "ADD_CONTACT",
+     payload: res.data }));
+
+
+    
+    // Clear State
     this.setState({
       name: "",
       email: "",
-      phone: ""
+      phone: "",
+      errors: {}
     });
+    this.props.history.push('/');
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    const { name, email, phone } = this.state;
+    const { name, email, phone, errors  } = this.state;
     return (
       <Consumer>
         {value => {
@@ -46,6 +81,7 @@ class AddContact extends Component {
                     placeholder="Enter Name"
                     value={name}
                     onChange={this.onChange}
+                    error={errors.name}
                   />
 
                   <TextInputGroup
@@ -55,6 +91,8 @@ class AddContact extends Component {
                     placeholder="Enter Email"
                     value={email}
                     onChange={this.onChange}
+                    error={errors.email}
+
                   />
 
                   <TextInputGroup
@@ -63,6 +101,7 @@ class AddContact extends Component {
                     placeholder="Enter Phone"
                     value={phone}
                     onChange={this.onChange}
+                    error={errors.phone}
                   />
 
                   <div className="form-group">

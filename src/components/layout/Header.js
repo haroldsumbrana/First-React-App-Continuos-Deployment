@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
- class Header extends Component {
+class Header extends Component {
   state = {
-  isActive: false
-  }
+    isActive: false
+  };
   render() {
     const { branding } = this.props;
 
@@ -15,48 +17,46 @@ import "bootstrap/dist/css/bootstrap.min.css";
           <a href="/" className="navbar-brand col-sm-3">
             {branding}
           </a>
-          <i onClick={() =>
-							this.setState({
-								isActive: !this.state.isActive
-							})
+          <i
+            onClick={() =>
+              this.setState({
+                isActive: !this.state.isActive
+              })
             }
-            
-						className={
-							this.state.isActive
-								? "icofont-ui-close"
-								: "icofont-navigation-menu"
-						}  style={{color: "#fff", fontSize: "20px",position: "absolute", right: "5%"}}></i>
+            className={
+              this.state.isActive
+                ? "icofont-ui-close"
+                : "icofont-navigation-menu"
+            }
+            style={{
+              color: "#fff",
+              fontSize: "20px",
+              position: "absolute",
+              right: "5%"
+            }}
+          ></i>
           <ul
-          className={
-            this.state.isActive
-              ? "navbar-nav col-sm-9 active"
-              : "navbar-nav col-sm-9"
-          }
+            className={
+              this.state.isActive
+                ? "navbar-nav col-sm-9 active"
+                : "navbar-nav col-sm-9"
+            }
           >
             <li className="nav-item">
-              <a href="/" className="nav-link">
+              <Link to="/" className="nav-link">
                 Home
-              </a>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/contact/add" className="nav-link">
+                Add Contact
+              </Link>
             </li>
             <li className="nav-item">
-              <a href="/" className="nav-link">
+              <Link to="/about" className="nav-link">
                 About
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="/" className="nav-link">
-                About1
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="/" className="nav-link">
-                About2
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="/" className="nav-link">
-                About3
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
